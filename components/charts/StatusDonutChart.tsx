@@ -3,6 +3,7 @@
 import React from 'react';
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from 'recharts';
 import { ObservationStatus } from '@/lib/types';
+import { STATUSES } from '@/lib/constants';
 import { CheckCircle2 } from 'lucide-react';
 
 interface StatusDonutChartProps {
@@ -18,11 +19,8 @@ interface StatusDonutChartProps {
 export function StatusDonutChart({ data, total, closed }: StatusDonutChartProps) {
   const closureRate = total > 0 ? Math.round((closed / total) * 100) : 0;
 
-  // Modern high-contrast color palette
-  const statusColors: Record<ObservationStatus, string> = {
-    Open: '#f59e0b',       // Amber
-    'In Review': '#06b6d4', // Cyan
-    Closed: '#10b981',      // Emerald
+  const getStatusColor = (st: ObservationStatus) => {
+    return STATUSES[st]?.color || '#f59e0b';
   };
 
   const chartData = data.filter((d) => d.count > 0);
@@ -59,7 +57,7 @@ export function StatusDonutChart({ data, total, closed }: StatusDonutChartProps)
                       <div className="flex items-center gap-2">
                         <span
                           className="w-2.5 h-2.5 rounded-full"
-                          style={{ backgroundColor: statusColors[item.status as ObservationStatus] || item.color }}
+                          style={{ backgroundColor: getStatusColor(item.status as ObservationStatus) }}
                         />
                         <span className="font-semibold text-[var(--text)]">{item.status}:</span>
                         <span className="font-mono font-bold text-[var(--text)]">
@@ -85,7 +83,7 @@ export function StatusDonutChart({ data, total, closed }: StatusDonutChartProps)
               {chartData.map((entry) => (
                 <Cell
                   key={entry.status}
-                  fill={statusColors[entry.status] || entry.color}
+                  fill={getStatusColor(entry.status)}
                   stroke="var(--panel)"
                   strokeWidth={2}
                 />
@@ -108,7 +106,7 @@ export function StatusDonutChart({ data, total, closed }: StatusDonutChartProps)
       {/* Legend & Count Breakdown */}
       <div className="grid grid-cols-3 gap-2 pt-2 border-t border-[var(--border)]">
         {data.map((item) => {
-          const color = statusColors[item.status] || item.color;
+          const color = getStatusColor(item.status);
           const pct = total > 0 ? Math.round((item.count / total) * 100) : 0;
           return (
             <div key={item.status} className="p-2 rounded bg-[var(--bg)] text-center space-y-0.5">

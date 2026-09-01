@@ -59,8 +59,11 @@ export function CategoryBars({ data }: CategoryBarsProps) {
               href={`/observations?category=${item.code}`}
               className="flex items-center gap-3 p-3.5 hover:bg-[var(--hover)] transition-colors group"
             >
-              <div className="w-36 sm:w-44 flex items-center gap-2 min-w-0 flex-shrink-0">
+              <div className="w-40 sm:w-52 flex items-center gap-2 min-w-0 flex-shrink-0">
                 <Icon className="w-4 h-4 flex-shrink-0" style={{ color: cat.color }} />
+                <span className="font-mono text-[10px] font-bold px-1.5 py-0.5 rounded" style={{ backgroundColor: `${cat.color}15`, color: cat.color }}>
+                  {cat.code}
+                </span>
                 <span className="text-xs font-medium text-[var(--text)] truncate group-hover:text-amber-600 dark:group-hover:text-amber-400 transition-colors">
                   {cat.label}
                 </span>

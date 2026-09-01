@@ -11,57 +11,63 @@ export const CATEGORIES: Record<
     icon: string;
     badgeBg: string;
     badgeText: string;
+    badgeBorder: string;
   }
 > = {
   SAF: {
     code: 'SAF',
     label: 'Safety Observation',
-    color: '#e5484d',
-    dim: 'rgba(229, 72, 77, 0.15)',
+    color: '#e11d48',
+    dim: 'rgba(225, 29, 72, 0.12)',
     description: 'Unsafe conditions, PPE compliance, track intrusion risks, electrical hazards',
     icon: 'ShieldAlert',
-    badgeBg: 'bg-red-50 dark:bg-red-950/60 border-red-200 dark:border-red-800/60',
-    badgeText: 'text-red-700 dark:text-red-400',
+    badgeBg: 'bg-rose-500/10 dark:bg-rose-500/15',
+    badgeBorder: 'border-rose-500/30 dark:border-rose-500/35',
+    badgeText: 'text-rose-700 dark:text-rose-300',
   },
   QAL: {
     code: 'QAL',
     label: 'Quality Observation',
-    color: '#0891b2',
-    dim: 'rgba(8, 145, 178, 0.15)',
+    color: '#0284c7',
+    dim: 'rgba(2, 132, 199, 0.12)',
     description: 'Workmanship defects, materials specifications, finish deviations, calibration',
     icon: 'CheckCircle2',
-    badgeBg: 'bg-teal-50 dark:bg-teal-950/60 border-teal-200 dark:border-teal-800/60',
-    badgeText: 'text-teal-700 dark:text-teal-400',
+    badgeBg: 'bg-sky-500/10 dark:bg-sky-500/15',
+    badgeBorder: 'border-sky-500/30 dark:border-sky-500/35',
+    badgeText: 'text-sky-700 dark:text-sky-300',
   },
   EQP: {
     code: 'EQP',
     label: 'Equipment / Asset Condition',
-    color: '#d97706',
-    dim: 'rgba(217, 119, 6, 0.15)',
+    color: '#7c3aed',
+    dim: 'rgba(124, 58, 237, 0.12)',
     description: 'Abnormal wear, overheating, leaks, structural damage, vibration, degradation',
     icon: 'Wrench',
-    badgeBg: 'bg-amber-50 dark:bg-amber-950/60 border-amber-200 dark:border-amber-800/60',
-    badgeText: 'text-amber-800 dark:text-amber-400',
+    badgeBg: 'bg-violet-500/10 dark:bg-violet-500/15',
+    badgeBorder: 'border-violet-500/30 dark:border-violet-500/35',
+    badgeText: 'text-violet-700 dark:text-violet-300',
   },
   MNT: {
     code: 'MNT',
     label: 'Maintenance Compliance',
-    color: '#16a34a',
-    dim: 'rgba(22, 163, 74, 0.15)',
+    color: '#0d9488',
+    dim: 'rgba(13, 148, 136, 0.12)',
     description: 'PM checklist misses, expired certifications, missing inspection tags, logbook gaps',
     icon: 'CalendarCheck',
-    badgeBg: 'bg-emerald-50 dark:bg-emerald-950/60 border-emerald-200 dark:border-emerald-800/60',
-    badgeText: 'text-emerald-700 dark:text-emerald-400',
+    badgeBg: 'bg-teal-500/10 dark:bg-teal-500/15',
+    badgeBorder: 'border-teal-500/30 dark:border-teal-500/35',
+    badgeText: 'text-teal-700 dark:text-teal-300',
   },
   INS: {
     code: 'INS',
     label: 'Site Inspection',
-    color: '#7c3aed',
-    dim: 'rgba(124, 58, 237, 0.15)',
+    color: '#4f46e5',
+    dim: 'rgba(79, 70, 229, 0.12)',
     description: 'Routine site audits, housekeeping, perimeter security, access control, lighting',
     icon: 'ClipboardList',
-    badgeBg: 'bg-purple-50 dark:bg-purple-950/60 border-purple-200 dark:border-purple-800/60',
-    badgeText: 'text-purple-700 dark:text-purple-400',
+    badgeBg: 'bg-indigo-500/10 dark:bg-indigo-500/15',
+    badgeBorder: 'border-indigo-500/30 dark:border-indigo-500/35',
+    badgeText: 'text-indigo-700 dark:text-indigo-300',
   },
 };
 
@@ -73,40 +79,45 @@ export const SEVERITIES: Record<
     dim: string;
     slaHours: number;
     badgeBg: string;
+    badgeBorder: string;
     badgeText: string;
   }
 > = {
   Critical: {
     level: 'Critical',
     color: '#dc2626',
-    dim: 'rgba(220, 38, 38, 0.2)',
+    dim: 'rgba(220, 38, 38, 0.15)',
     slaHours: 24,
-    badgeBg: 'bg-red-100 dark:bg-red-950 border-red-300 dark:border-red-700/80',
-    badgeText: 'text-red-700 dark:text-red-400',
+    badgeBg: 'bg-red-500/10 dark:bg-red-500/20',
+    badgeBorder: 'border-red-500/35 dark:border-red-500/40',
+    badgeText: 'text-red-700 dark:text-red-300',
   },
   High: {
     level: 'High',
     color: '#ea580c',
-    dim: 'rgba(234, 88, 12, 0.2)',
+    dim: 'rgba(234, 88, 12, 0.15)',
     slaHours: 72,
-    badgeBg: 'bg-orange-100 dark:bg-orange-950 border-orange-300 dark:border-orange-700/80',
-    badgeText: 'text-orange-800 dark:text-orange-400',
+    badgeBg: 'bg-orange-500/10 dark:bg-orange-500/20',
+    badgeBorder: 'border-orange-500/35 dark:border-orange-500/40',
+    badgeText: 'text-orange-700 dark:text-orange-300',
   },
   Medium: {
     level: 'Medium',
     color: '#d97706',
-    dim: 'rgba(217, 119, 6, 0.2)',
+    dim: 'rgba(217, 119, 6, 0.15)',
     slaHours: 168,
-    badgeBg: 'bg-amber-100 dark:bg-amber-950 border-amber-300 dark:border-amber-700/80',
-    badgeText: 'text-amber-800 dark:text-amber-400',
+    badgeBg: 'bg-amber-500/10 dark:bg-amber-500/20',
+    badgeBorder: 'border-amber-500/35 dark:border-amber-500/40',
+    badgeText: 'text-amber-700 dark:text-amber-300',
   },
   Low: {
     level: 'Low',
-    color: '#16a34a',
-    dim: 'rgba(22, 163, 74, 0.2)',
+    color: '#64748b',
+    dim: 'rgba(100, 116, 139, 0.15)',
     slaHours: 336,
-    badgeBg: 'bg-emerald-100 dark:bg-emerald-950 border-emerald-300 dark:border-emerald-700/80',
-    badgeText: 'text-emerald-700 dark:text-emerald-400',
+    badgeBg: 'bg-slate-500/10 dark:bg-slate-500/20',
+    badgeBorder: 'border-slate-500/30 dark:border-slate-500/40',
+    badgeText: 'text-slate-700 dark:text-slate-300',
   },
 };
 
@@ -117,29 +128,33 @@ export const STATUSES: Record<
     color: string;
     dim: string;
     badgeBg: string;
+    badgeBorder: string;
     badgeText: string;
   }
 > = {
   Open: {
     status: 'Open',
-    color: '#d97706',
-    dim: 'rgba(217, 119, 6, 0.15)',
-    badgeBg: 'bg-amber-50 dark:bg-amber-950/70 border-amber-300 dark:border-amber-700/70',
-    badgeText: 'text-amber-800 dark:text-amber-300',
+    color: '#f59e0b',
+    dim: 'rgba(245, 158, 11, 0.15)',
+    badgeBg: 'bg-amber-500/10 dark:bg-amber-500/20',
+    badgeBorder: 'border-amber-500/35 dark:border-amber-500/40',
+    badgeText: 'text-amber-700 dark:text-amber-300',
   },
   'In Review': {
     status: 'In Review',
-    color: '#0891b2',
-    dim: 'rgba(8, 145, 178, 0.15)',
-    badgeBg: 'bg-teal-50 dark:bg-teal-950/70 border-teal-300 dark:border-teal-700/70',
-    badgeText: 'text-teal-800 dark:text-teal-300',
+    color: '#8b5cf6',
+    dim: 'rgba(139, 92, 246, 0.15)',
+    badgeBg: 'bg-purple-500/10 dark:bg-purple-500/20',
+    badgeBorder: 'border-purple-500/35 dark:border-purple-500/40',
+    badgeText: 'text-purple-700 dark:text-purple-300',
   },
   Closed: {
     status: 'Closed',
-    color: '#16a34a',
-    dim: 'rgba(22, 163, 74, 0.15)',
-    badgeBg: 'bg-emerald-50 dark:bg-emerald-950/70 border-emerald-300 dark:border-emerald-700/70',
-    badgeText: 'text-emerald-800 dark:text-emerald-300',
+    color: '#10b981',
+    dim: 'rgba(16, 185, 129, 0.15)',
+    badgeBg: 'bg-emerald-500/10 dark:bg-emerald-500/20',
+    badgeBorder: 'border-emerald-500/35 dark:border-emerald-500/40',
+    badgeText: 'text-emerald-700 dark:text-emerald-300',
   },
 };
 
