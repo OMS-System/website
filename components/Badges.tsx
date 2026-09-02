@@ -36,28 +36,36 @@ export function CategoryBadge({
 
   const sizeConfig = {
     sm: {
-      container: 'text-[10px] px-2 py-0.5 gap-1 font-medium',
+      container: 'text-[10px] px-1.5 py-0.5 gap-1.5',
       icon: 'w-3 h-3',
     },
     md: {
-      container: 'text-[11px] px-2.5 py-0.5 gap-1.5 font-medium',
+      container: 'text-[11px] px-2 py-0.5 gap-1.5',
       icon: 'w-3.5 h-3.5',
     },
     lg: {
-      container: 'text-xs px-3 py-1 gap-2 font-semibold',
+      container: 'text-xs px-2.5 py-1 gap-2',
       icon: 'w-4 h-4',
     },
   }[size];
 
   return (
     <span
-      className={`inline-flex items-center rounded-md border ${meta.badgeBg} ${meta.badgeBorder} ${meta.badgeText} ${sizeConfig.container} transition-colors tracking-tight`}
+      className={`inline-flex items-center rounded font-mono font-bold ${sizeConfig.container} border select-none transition-colors`}
+      style={{
+        backgroundColor: `${meta.color}18`,
+        color: meta.color,
+        borderColor: `${meta.color}35`,
+      }}
     >
-      <Icon className={`${sizeConfig.icon} flex-shrink-0`} />
-      <span className="font-mono font-bold">{meta.code}</span>
+      <Icon className={`${sizeConfig.icon} flex-shrink-0`} style={{ color: meta.color }} />
+      <span>{meta.code}</span>
       {showLabel && (
-        <span className="opacity-80 font-sans hidden sm:inline truncate">
-          · {meta.label.split(' ')[0]}
+        <span
+          className="font-sans font-semibold text-[90%] normal-case truncate border-l pl-1.5 ml-0.5 hidden sm:inline"
+          style={{ borderColor: `${meta.color}35` }}
+        >
+          {meta.label.split(' ')[0]}
         </span>
       )}
     </span>
@@ -76,38 +84,49 @@ export function SeverityBadge({
   const meta = SEVERITIES[severity] || SEVERITIES.Medium;
 
   const sizeConfig = {
-    sm: 'text-[10px] px-2 py-0.5 gap-1.5',
-    md: 'text-[11px] px-2.5 py-0.5 gap-1.5',
-    lg: 'text-xs px-3 py-1 gap-2',
+    sm: {
+      container: 'text-[10px] px-1.5 py-0.5 gap-1.5',
+    },
+    md: {
+      container: 'text-[11px] px-2 py-0.5 gap-1.5',
+    },
+    lg: {
+      container: 'text-xs px-2.5 py-1 gap-2',
+    },
   }[size];
 
   const isCritical = severity === 'Critical';
-  const isHigh = severity === 'High';
 
   return (
     <span
-      className={`inline-flex items-center rounded-full border ${meta.badgeBg} ${meta.badgeBorder} ${meta.badgeText} ${sizeConfig} tracking-tight transition-colors`}
+      className={`inline-flex items-center rounded font-mono font-bold uppercase ${sizeConfig.container} border select-none transition-colors`}
+      style={{
+        backgroundColor: `${meta.color}18`,
+        color: meta.color,
+        borderColor: `${meta.color}35`,
+      }}
     >
       <span className="relative flex items-center justify-center flex-shrink-0">
         {isCritical && (
           <span
-            className="absolute w-2.5 h-2.5 rounded-full animate-ping opacity-75"
+            className="absolute w-2 h-2 rounded-full animate-ping opacity-60"
             style={{ backgroundColor: meta.color }}
           />
         )}
         <span
-          className={`w-1.5 h-1.5 rounded-full ${
-            isCritical ? 'bg-red-500 ring-2 ring-red-400/40' : ''
-          }`}
+          className="w-1.5 h-1.5 rounded-full"
           style={{ backgroundColor: meta.color }}
         />
       </span>
 
-      <span className={isCritical ? 'font-bold' : 'font-medium'}>{meta.level}</span>
+      <span>{meta.level}</span>
 
       {showSla && (
-        <span className="text-[10px] opacity-75 font-mono">
-          ({meta.slaHours < 48 ? `${meta.slaHours}h` : `${meta.slaHours / 24}d`})
+        <span
+          className="text-[9px] font-mono font-bold border-l pl-1.5 ml-0.5"
+          style={{ borderColor: `${meta.color}35` }}
+        >
+          {meta.slaHours < 48 ? `${meta.slaHours}H` : `${meta.slaHours / 24}D`}
         </span>
       )}
     </span>
@@ -125,38 +144,47 @@ export function StatusBadge({
 
   const sizeConfig = {
     sm: {
-      container: 'text-[10px] px-2 py-0.5 gap-1.5',
+      container: 'text-[10px] px-1.5 py-0.5 gap-1.5',
       icon: 'w-2.5 h-2.5',
     },
     md: {
-      container: 'text-[11px] px-2.5 py-0.5 gap-1.5',
+      container: 'text-[11px] px-2 py-0.5 gap-1.5',
       icon: 'w-3 h-3',
     },
     lg: {
-      container: 'text-xs px-3 py-1 gap-2',
+      container: 'text-xs px-2.5 py-1 gap-2',
       icon: 'w-3.5 h-3.5',
     },
   }[size];
 
   return (
     <span
-      className={`inline-flex items-center font-medium rounded-full border ${meta.badgeBg} ${meta.badgeBorder} ${meta.badgeText} ${sizeConfig.container} tracking-tight transition-colors`}
+      className={`inline-flex items-center rounded font-mono font-bold uppercase ${sizeConfig.container} border select-none transition-colors`}
+      style={{
+        backgroundColor: `${meta.color}18`,
+        color: meta.color,
+        borderColor: `${meta.color}35`,
+      }}
     >
       {status === 'Open' && (
-        <span className="relative flex items-center justify-center flex-shrink-0">
-          <span
-            className="w-1.5 h-1.5 rounded-full"
-            style={{ backgroundColor: meta.color }}
-          />
-        </span>
+        <span
+          className="w-1.5 h-1.5 rounded-full flex-shrink-0"
+          style={{ backgroundColor: meta.color }}
+        />
       )}
 
       {status === 'In Review' && (
-        <RotateCw className={`${sizeConfig.icon} animate-spin-slow flex-shrink-0 opacity-80`} />
+        <RotateCw
+          className={`${sizeConfig.icon} animate-spin-slow flex-shrink-0`}
+          style={{ color: meta.color }}
+        />
       )}
 
       {status === 'Closed' && (
-        <Check className={`${sizeConfig.icon} stroke-[3] flex-shrink-0`} />
+        <Check
+          className={`${sizeConfig.icon} stroke-[3] flex-shrink-0`}
+          style={{ color: meta.color }}
+        />
       )}
 
       <span>{status}</span>

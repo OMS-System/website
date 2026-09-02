@@ -206,28 +206,52 @@ export default function NewObservationPage({
                     key={code}
                     type="button"
                     onClick={() => setCategory(code)}
-                    className={`p-3 rounded-lg border text-left transition-all flex flex-col justify-between gap-2 cursor-pointer ${
+                    className={`p-3.5 rounded-lg border text-left transition-all flex flex-col justify-between gap-2.5 cursor-pointer ${
                       selected
-                        ? 'bg-[var(--hover)] border-amber-500 shadow-xs ring-1 ring-amber-500/50'
+                        ? 'shadow-xs ring-1'
                         : 'bg-[var(--bg)] border-[var(--border)] hover:border-[var(--border-light)] hover:bg-[var(--hover)]'
                     }`}
+                    style={
+                      selected
+                        ? {
+                            borderColor: cat.color,
+                            backgroundColor: `${cat.color}12`,
+                            boxShadow: `0 0 0 1px ${cat.color}`,
+                          }
+                        : {}
+                    }
                   >
                     <div className="flex items-center justify-between w-full">
                       <div className="flex items-center gap-2">
                         <Icon className="w-4 h-4 flex-shrink-0" style={{ color: cat.color }} />
-                        <span className="font-mono text-xs font-bold text-[var(--text)]">
+                        <span
+                          className="font-mono text-xs font-bold px-1.5 py-0.5 rounded border"
+                          style={{
+                            backgroundColor: `${cat.color}18`,
+                            color: cat.color,
+                            borderColor: `${cat.color}35`,
+                          }}
+                        >
                           {cat.code}
                         </span>
                       </div>
                       {selected && (
-                        <span className="w-4 h-4 rounded-full bg-amber-500 text-slate-950 flex items-center justify-center text-[10px] font-bold">
+                        <span
+                          className="w-4 h-4 rounded-full text-white flex items-center justify-center text-[10px] font-bold"
+                          style={{ backgroundColor: cat.color }}
+                        >
                           ✓
                         </span>
                       )}
                     </div>
                     <div>
-                      <div className="text-xs font-semibold text-[var(--text)]">{cat.label}</div>
-                      <div className="text-[10.5px] text-[var(--dim)] line-clamp-2 mt-0.5">
+                      <div
+                        className="text-xs font-bold"
+                        style={selected ? { color: cat.color } : { color: 'var(--text)' }}
+                      >
+                        {cat.label}
+                      </div>
+                      <div className="text-[10.5px] text-[var(--dim)] line-clamp-2 mt-0.5 font-normal">
                         {cat.description}
                       </div>
                     </div>
@@ -261,20 +285,31 @@ export default function NewObservationPage({
                     onClick={() => setSeverity(level)}
                     className={`p-3 rounded-lg border text-left transition-all cursor-pointer ${
                       selected
-                        ? 'bg-[var(--hover)] border-amber-500 shadow-xs ring-1 ring-amber-500/50'
+                        ? 'shadow-xs ring-1'
                         : 'bg-[var(--bg)] border-[var(--border)] hover:border-[var(--border-light)]'
                     }`}
+                    style={
+                      selected
+                        ? {
+                            borderColor: meta.color,
+                            backgroundColor: `${meta.color}12`,
+                            boxShadow: `0 0 0 1px ${meta.color}`,
+                          }
+                        : {}
+                    }
                   >
                     <div className="flex items-center justify-between">
                       <span
-                        className="w-2 h-2 rounded-full"
+                        className={`w-2 h-2 rounded-full ${level === 'Critical' && selected ? 'animate-ping' : ''}`}
                         style={{ backgroundColor: meta.color, boxShadow: `0 0 6px ${meta.color}` }}
                       />
-                      <span className="text-[10px] font-mono text-[var(--dim)]">
+                      <span className="text-[10px] font-mono text-[var(--dim)] font-medium">
                         {meta.slaHours < 48 ? `${meta.slaHours}h SLA` : `${meta.slaHours / 24}d SLA`}
                       </span>
                     </div>
-                    <div className="font-bold text-xs text-[var(--text)] mt-2">{meta.level}</div>
+                    <div className={`font-bold text-xs mt-2 ${selected ? meta.badgeText : 'text-[var(--text)]'}`}>
+                      {meta.level}
+                    </div>
                   </button>
                 );
               })}

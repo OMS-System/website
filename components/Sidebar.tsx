@@ -65,8 +65,12 @@ function CategoryLinks({ onClose, pathname }: { onClose?: () => void; pathname: 
               <span className="truncate">{cat.label}</span>
             </div>
             <span
-              className="font-mono text-[10.5px] px-1.5 py-0.5 rounded font-bold"
-              style={{ backgroundColor: `${cat.color}18`, color: cat.color }}
+              className="font-mono text-[10.5px] px-1.5 py-0.5 rounded border font-bold"
+              style={{
+                backgroundColor: `${cat.color}18`,
+                color: cat.color,
+                borderColor: `${cat.color}35`,
+              }}
             >
               {code}
             </span>
@@ -95,8 +99,12 @@ function CategoryLinksFallback({ onClose }: { onClose?: () => void }) {
               <span className="truncate">{cat.label}</span>
             </div>
             <span
-              className="font-mono text-[10.5px] px-1.5 py-0.5 rounded font-bold"
-              style={{ backgroundColor: `${cat.color}18`, color: cat.color }}
+              className="font-mono text-[10.5px] px-1.5 py-0.5 rounded border font-bold"
+              style={{
+                backgroundColor: `${cat.color}18`,
+                color: cat.color,
+                borderColor: `${cat.color}35`,
+              }}
             >
               {code}
             </span>

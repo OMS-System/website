@@ -296,10 +296,17 @@ export default function ObservationDetailPage({
               <div className="space-y-2">
                 <div className="flex items-center gap-2.5 flex-wrap">
                   <CategoryBadge category={observation.category} size="lg" />
-                  <SeverityBadge severity={observation.severity} size="lg" />
+                  <SeverityBadge severity={observation.severity} size="lg" showSla={true} />
                   <StatusBadge status={observation.status} size="lg" />
                   {isOverdue && (
-                    <span className="text-[11px] font-mono font-bold px-2 py-0.5 rounded bg-red-100 dark:bg-red-950 border border-red-300 dark:border-red-800 text-red-700 dark:text-red-400 flex items-center gap-1">
+                    <span
+                      className="text-[11px] font-mono font-bold px-2 py-0.5 rounded border uppercase tracking-wider flex items-center gap-1.5"
+                      style={{
+                        backgroundColor: '#dc262618',
+                        color: '#dc2626',
+                        borderColor: '#dc262635',
+                      }}
+                    >
                       <span className="w-1.5 h-1.5 rounded-full bg-red-500 led-pulse" />
                       SLA OVERDUE
                     </span>
@@ -311,11 +318,18 @@ export default function ObservationDetailPage({
               </div>
 
               {observation.status === 'Closed' && observation.closedAt && (
-                <div className="p-2.5 rounded bg-emerald-100 dark:bg-emerald-950/40 border border-emerald-300 dark:border-emerald-800/60 text-xs text-emerald-800 dark:text-emerald-300 font-mono flex items-center gap-2">
-                  <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
+                <div
+                  className="p-2.5 rounded border text-xs font-mono flex items-center gap-2"
+                  style={{
+                    backgroundColor: '#16a34a18',
+                    color: '#16a34a',
+                    borderColor: '#16a34a35',
+                  }}
+                >
+                  <CheckCircle2 className="w-4 h-4" style={{ color: '#16a34a' }} />
                   <div>
-                    <div className="font-bold">Verified &amp; Closed</div>
-                    <div className="text-[10px] text-emerald-700 dark:text-emerald-400/80">
+                    <div className="font-bold uppercase tracking-wider">Verified &amp; Closed</div>
+                    <div className="text-[10px] opacity-80">
                       by {observation.closedBy || 'QA Inspector'}
                     </div>
                   </div>
@@ -405,16 +419,30 @@ export default function ObservationDetailPage({
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
                   {observation.photos.map((photo) => {
                     const stageBadge = {
-                      initial: { label: 'Initial', color: 'bg-red-100 dark:bg-red-950 text-red-700 dark:text-red-400 border-red-300 dark:border-red-800' },
+                      initial: {
+                        label: 'Initial',
+                        bg: '#e5484d18',
+                        color: '#e5484d',
+                        border: '#e5484d35',
+                      },
                       rectification: {
                         label: 'Rectification',
-                        color: 'bg-teal-100 dark:bg-teal-950 text-teal-800 dark:text-teal-400 border-teal-300 dark:border-teal-800',
+                        bg: '#7c3aed18',
+                        color: '#7c3aed',
+                        border: '#7c3aed35',
                       },
                       closure: {
                         label: 'Closure',
-                        color: 'bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-400 border-emerald-300 dark:border-emerald-800',
+                        bg: '#16a34a18',
+                        color: '#16a34a',
+                        border: '#16a34a35',
                       },
-                    }[photo.stage] || { label: photo.stage, color: 'bg-zinc-100 dark:bg-zinc-800 text-zinc-800 dark:text-zinc-300 border-zinc-300 dark:border-zinc-700' };
+                    }[photo.stage] || {
+                      label: photo.stage,
+                      bg: '#64748b18',
+                      color: '#64748b',
+                      border: '#64748b35',
+                    };
 
                     return (
                       <div
@@ -429,7 +457,12 @@ export default function ObservationDetailPage({
                           className="w-full h-32 object-cover group-hover:scale-105 transition-transform duration-300"
                         />
                         <span
-                          className={`absolute top-2 left-2 text-[9.5px] font-mono font-bold px-1.5 py-0.5 rounded border uppercase tracking-wider ${stageBadge.color}`}
+                          className="absolute top-2 left-2 text-[9.5px] font-mono font-bold px-1.5 py-0.5 rounded border uppercase tracking-wider"
+                          style={{
+                            backgroundColor: stageBadge.bg,
+                            color: stageBadge.color,
+                            borderColor: stageBadge.border,
+                          }}
                         >
                           {stageBadge.label}
                         </span>
@@ -468,12 +501,7 @@ export default function ObservationDetailPage({
                             · {formatDate(hist.createdAt)}
                           </span>
                         </div>
-                        <span
-                          className="font-mono text-[10.5px] font-bold px-2 py-0.2 rounded"
-                          style={{ backgroundColor: `${statColor}18`, color: statColor }}
-                        >
-                          {hist.status}
-                        </span>
+                        <StatusBadge status={hist.status} size="sm" />
                       </div>
                       <p className="text-[var(--dim)] pl-4">{hist.remarks}</p>
                     </div>

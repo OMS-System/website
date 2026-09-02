@@ -15,10 +15,30 @@ export function PhotoViewerModal({ photo, onClose }: PhotoViewerModalProps) {
   if (!photo) return null;
 
   const stageBadge = {
-    initial: { label: 'Initial Finding', color: 'bg-red-100 dark:bg-red-950 text-red-700 dark:text-red-400 border-red-300 dark:border-red-800' },
-    rectification: { label: 'In Rectification', color: 'bg-teal-100 dark:bg-teal-950 text-teal-800 dark:text-teal-400 border-teal-300 dark:border-teal-800' },
-    closure: { label: 'Closure Verification', color: 'bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-400 border-emerald-300 dark:border-emerald-800' },
-  }[photo.stage] || { label: photo.stage, color: 'bg-zinc-100 dark:bg-zinc-800 text-zinc-800 dark:text-zinc-300 border-zinc-300 dark:border-zinc-700' };
+    initial: {
+      label: 'Initial Finding',
+      bg: '#e5484d18',
+      color: '#e5484d',
+      border: '#e5484d35',
+    },
+    rectification: {
+      label: 'In Rectification',
+      bg: '#7c3aed18',
+      color: '#7c3aed',
+      border: '#7c3aed35',
+    },
+    closure: {
+      label: 'Closure Verification',
+      bg: '#16a34a18',
+      color: '#16a34a',
+      border: '#16a34a35',
+    },
+  }[photo.stage] || {
+    label: photo.stage,
+    bg: '#64748b18',
+    color: '#64748b',
+    border: '#64748b35',
+  };
 
   return (
     <div
@@ -33,7 +53,12 @@ export function PhotoViewerModal({ photo, onClose }: PhotoViewerModalProps) {
         <div className="p-3.5 border-b border-[var(--border)] flex items-center justify-between gap-4 bg-[var(--panel-alt)]">
           <div className="flex items-center gap-2.5 min-w-0">
             <span
-              className={`text-xs font-mono font-bold px-2 py-0.5 rounded border uppercase tracking-wider ${stageBadge.color}`}
+              className="text-xs font-mono font-bold px-2 py-0.5 rounded border uppercase tracking-wider"
+              style={{
+                backgroundColor: stageBadge.bg,
+                color: stageBadge.color,
+                borderColor: stageBadge.border,
+              }}
             >
               {stageBadge.label}
             </span>
