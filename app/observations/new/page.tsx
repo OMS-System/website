@@ -488,10 +488,11 @@ export default function NewObservationPage({
                         <button
                           type="button"
                           onClick={() => removePhoto(i)}
-                          className="absolute top-1 right-1 p-1 rounded-full bg-black/70 text-red-400 hover:text-red-200 transition-colors cursor-pointer"
+                          className="absolute top-1.5 right-1.5 p-1.5 rounded-full bg-black/60 hover:bg-rose-600 backdrop-blur-xs text-white border border-white/25 hover:border-rose-500 shadow-sm transition-all active:scale-90 cursor-pointer group/btn"
                           title="Remove photo"
+                          aria-label="Remove photo"
                         >
-                          <Trash2 className="w-3.5 h-3.5" />
+                          <Trash2 className="w-3.5 h-3.5 group-hover/btn:scale-110 transition-transform" />
                         </button>
                         <div className="p-1.5 bg-[var(--panel-alt)] text-[10px] font-mono text-[var(--dim)] truncate">
                           {photo.caption || `Photo #${i + 1}`}

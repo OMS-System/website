@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation';
 import { Topbar } from '@/components/Topbar';
 import { CategoryBadge, SeverityBadge, StatusBadge } from '@/components/Badges';
 import { PhotoViewerModal } from '@/components/PhotoViewerModal';
+import { DeleteConfirmModal } from '@/components/DeleteConfirmModal';
 import { PrintReportView } from '@/components/PrintReportView';
 import { useToast } from '@/components/ToastContext';
 import { Observation, ObservationPhoto, ObservationStatus, PhotoStage } from '@/lib/types';
@@ -24,6 +25,7 @@ import {
   Camera,
   MessageSquare,
   Send,
+  X,
 } from 'lucide-react';
 
 // Client-side image compressor targeting ~300KB
@@ -80,6 +82,7 @@ export default function ObservationDetailPage({
   >([]);
   const [updating, setUpdating] = useState(false);
   const [deleting, setDeleting] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
 
   const fetchObservation = useCallback(async () => {
     setLoading(true);
@@ -172,9 +175,6 @@ export default function ObservationDetailPage({
 
   const handleDelete = async () => {
     if (!observation) return;
-    if (!confirm(`Are you sure you want to permanently delete observation ${observation.id}?`)) {
-      return;
-    }
 
     setDeleting(true);
     try {
@@ -183,14 +183,15 @@ export default function ObservationDetailPage({
       });
       const data = await res.json();
       if (data.success) {
-        showToast(`Observation ${observation.id} deleted`, 'info');
+        setShowDeleteModal(false);
+        showToast(`Observation ${observation.id} deleted successfully`, 'info');
         router.push('/observations');
       } else {
         showToast(data.error || 'Failed to delete observation', 'error');
+        setDeleting(false);
       }
     } catch {
       showToast('Failed to delete observation', 'error');
-    } finally {
       setDeleting(false);
     }
   };
@@ -261,7 +262,7 @@ export default function ObservationDetailPage({
             <div className="flex items-center gap-2">
               <button
                 onClick={copyIdToClipboard}
-                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md bg-[var(--panel)] border border-[var(--border)] hover:bg-[var(--hover)] text-xs font-semibold text-[var(--dim)] hover:text-[var(--text)] transition-colors cursor-pointer"
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md bg-[var(--panel)] border border-[var(--border)] hover:bg-[var(--hover)] hover:border-[var(--border-light)] text-xs font-semibold text-[var(--dim)] hover:text-[var(--text)] transition-colors cursor-pointer"
                 title="Copy Observation ID"
               >
                 <Copy className="w-3.5 h-3.5" />
@@ -270,7 +271,7 @@ export default function ObservationDetailPage({
 
               <button
                 onClick={() => window.print()}
-                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md bg-[var(--panel)] border border-[var(--border)] hover:bg-[var(--hover)] text-xs font-semibold text-[var(--dim)] hover:text-[var(--text)] transition-colors cursor-pointer"
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md bg-[var(--panel)] border border-[var(--border)] hover:bg-[var(--hover)] hover:border-[var(--border-light)] text-xs font-semibold text-[var(--dim)] hover:text-[var(--text)] transition-colors cursor-pointer"
                 title="Print Official Report Sheet"
               >
                 <Printer className="w-3.5 h-3.5 text-cyan-600 dark:text-cyan-400" />
@@ -278,12 +279,12 @@ export default function ObservationDetailPage({
               </button>
 
               <button
-                onClick={handleDelete}
+                onClick={() => setShowDeleteModal(true)}
                 disabled={deleting}
-                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md bg-red-100 dark:bg-red-950/40 border border-red-300 dark:border-red-800/60 hover:bg-red-200 dark:hover:bg-red-900/40 text-xs font-semibold text-red-700 dark:text-red-400 transition-colors cursor-pointer"
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-semibold btn-subtle-danger cursor-pointer shadow-2xs group focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-rose-500/40"
                 title="Delete Observation"
               >
-                <Trash2 className="w-3.5 h-3.5" />
+                <Trash2 className="w-3.5 h-3.5 transition-transform group-hover:scale-110" />
                 <span>Delete</span>
               </button>
             </div>
@@ -599,16 +600,18 @@ export default function ObservationDetailPage({
                         {updatePhotos.map((p, i) => (
                           <div
                             key={i}
-                            className="relative w-16 h-16 rounded overflow-hidden border border-[var(--border)]"
+                            className="relative w-16 h-16 rounded overflow-hidden border border-[var(--border)] group/thumb"
                           >
                             {/* eslint-disable-next-line @next/next/no-img-element */}
                             <img src={p.dataUrl} alt="Preview" className="w-full h-full object-cover" />
                             <button
                               type="button"
                               onClick={() => setUpdatePhotos((prev) => prev.filter((_, idx) => idx !== i))}
-                              className="absolute top-0 right-0 bg-black/80 text-white text-[10px] w-4 h-4 flex items-center justify-center cursor-pointer"
+                              className="absolute top-1 right-1 p-1 rounded-full bg-black/60 hover:bg-rose-600 backdrop-blur-xs text-white border border-white/20 hover:border-rose-500 shadow-xs transition-all active:scale-90 cursor-pointer"
+                              title="Remove photo"
+                              aria-label="Remove photo"
                             >
-                              ✕
+                              <X className="w-3 h-3" />
                             </button>
                           </div>
                         ))}
@@ -641,6 +644,31 @@ export default function ObservationDetailPage({
           </div>
         </main>
       </div>
+
+      {/* Delete Confirmation Modal */}
+      <DeleteConfirmModal
+        isOpen={showDeleteModal}
+        onClose={() => !deleting && setShowDeleteModal(false)}
+        onConfirm={handleDelete}
+        isLoading={deleting}
+        title={`Delete Observation ${observation.id}`}
+        description={
+          <span>
+            Are you sure you want to permanently remove observation{' '}
+            <strong className="font-mono text-[var(--text)]">{observation.id}</strong>?
+          </span>
+        }
+        itemDetails={[
+          { label: 'Site / Location', value: observation.site },
+          { label: 'Category', value: `${observation.category} — ${CATEGORIES[observation.category]?.label || ''}` },
+          { label: 'Severity', value: observation.severity },
+          { label: 'Logged By', value: observation.observedBy },
+          ...(observation.photos && observation.photos.length > 0
+            ? [{ label: 'Evidence Photos', value: `${observation.photos.length} photo(s) attached` }]
+            : []),
+        ]}
+        confirmText="Delete Permanently"
+      />
 
       {/* Lightbox Photo Viewer Modal */}
       <PhotoViewerModal

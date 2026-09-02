@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { Topbar } from '@/components/Topbar';
 import { useToast } from '@/components/ToastContext';
 import { useTheme } from '@/components/ThemeContext';
+import { DeleteConfirmModal } from '@/components/DeleteConfirmModal';
 import {
   Database,
   RefreshCw,
@@ -22,21 +23,15 @@ export default function SettingsPage({
   const { showToast } = useToast();
   const { theme, setTheme } = useTheme();
   const [seeding, setSeeding] = useState(false);
+  const [showResetModal, setShowResetModal] = useState(false);
 
   const handleReseed = async () => {
-    if (
-      !confirm(
-        'Warning: This will reset the database and restore default realistic sample observations. Continue?'
-      )
-    ) {
-      return;
-    }
-
     setSeeding(true);
     try {
       const res = await fetch('/api/seed', { method: 'POST' });
       const data = await res.json();
       if (data.success) {
+        setShowResetModal(false);
         showToast('Database successfully re-seeded with demo records!', 'success');
       } else {
         showToast(data.error || 'Failed to re-seed', 'error');
@@ -179,12 +174,12 @@ export default function SettingsPage({
               </div>
 
               <button
-                onClick={handleReseed}
+                onClick={() => setShowResetModal(true)}
                 disabled={seeding}
-                className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-md bg-amber-500/15 border border-amber-500/40 hover:bg-amber-500/25 text-amber-700 dark:text-amber-400 text-xs font-mono font-bold transition-colors whitespace-nowrap cursor-pointer disabled:opacity-50"
+                className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-md bg-amber-500/10 border border-amber-500/30 hover:bg-amber-500/20 hover:border-amber-500/50 text-amber-700 dark:text-amber-400 text-xs font-mono font-bold transition-all shadow-2xs cursor-pointer disabled:opacity-50 active:scale-95 group"
               >
-                <RefreshCw className={`w-3.5 h-3.5 ${seeding ? 'animate-spin' : ''}`} />
-                <span>{seeding ? 'Seeding...' : 'Reset & Re-seed'}</span>
+                <RefreshCw className={`w-3.5 h-3.5 ${seeding ? 'animate-spin' : 'group-hover:rotate-45 transition-transform'}`} />
+                <span>Reset &amp; Re-seed</span>
               </button>
             </div>
 
@@ -202,7 +197,7 @@ export default function SettingsPage({
               <a
                 href="/api/export?format=json"
                 download
-                className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-md bg-[var(--panel)] border border-[var(--border)] hover:bg-[var(--hover)] text-xs font-mono font-bold text-cyan-600 dark:text-cyan-400 transition-colors whitespace-nowrap"
+                className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-md bg-[var(--panel)] border border-[var(--border)] hover:bg-[var(--hover)] hover:border-[var(--border-light)] text-xs font-mono font-bold text-cyan-600 dark:text-cyan-400 transition-colors whitespace-nowrap shadow-2xs"
               >
                 <Download className="w-3.5 h-3.5" />
                 <span>Download JSON</span>
@@ -238,6 +233,24 @@ export default function SettingsPage({
           </div>
         </div>
       </main>
+
+      {/* Database Reset Confirmation Modal */}
+      <DeleteConfirmModal
+        isOpen={showResetModal}
+        onClose={() => !seeding && setShowResetModal(false)}
+        onConfirm={handleReseed}
+        isLoading={seeding}
+        variant="warning"
+        title="Reset & Restore Sample Database?"
+        description="This will clear all current observations and re-seed the SQLite database with 7+ realistic baseline findings across all asset categories."
+        itemDetails={[
+          { label: 'Database Target', value: '/data/soms.db' },
+          { label: 'Action', value: 'Wipe & Re-seed with Demo Data' },
+          { label: 'Default Records', value: '7 Standard Audit Findings' },
+        ]}
+        confirmText="Reset & Restore Data"
+        cancelText="Keep Current Data"
+      />
     </div>
   );
 }

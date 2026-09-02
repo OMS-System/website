@@ -12,6 +12,7 @@ import {
   LayoutGrid,
   Table as TableIcon,
   RotateCcw,
+  X,
 } from 'lucide-react';
 
 function ObservationsContent({
@@ -115,10 +116,13 @@ function ObservationsContent({
               />
               {searchQuery && (
                 <button
+                  type="button"
                   onClick={() => setSearchQuery('')}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-[var(--dim)] hover:text-[var(--text)] cursor-pointer"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 p-0.5 rounded-full hover:bg-[var(--hover)] text-[var(--faint)] hover:text-[var(--text)] transition-colors cursor-pointer"
+                  title="Clear search"
+                  aria-label="Clear search"
                 >
-                  ✕
+                  <X className="w-3.5 h-3.5" />
                 </button>
               )}
             </div>

@@ -18,8 +18,10 @@
   --cyan-dim: #ccfbf1;
   --violet: #7c3aed;
   --violet-dim: #ede9fe;
-  --danger: #dc2626;
-  --danger-dim: #fee2e2;
+  --danger: #e11d48;
+  --danger-dim: #ffe4e6;
+  --danger-subtle: rgba(225, 29, 72, 0.08);
+  --danger-border: rgba(225, 29, 72, 0.22);
   --success: #16a34a;
   --success-dim: #dcfce7;
   color-scheme: light;
@@ -43,8 +45,10 @@
   --cyan-dim: #123330;
   --violet: #a78bfa;
   --violet-dim: #2a2340;
-  --danger: #e5484d;
-  --danger-dim: #3a1e1f;
+  --danger: #f43f5e;
+  --danger-dim: #3a151b;
+  --danger-subtle: rgba(244, 63, 94, 0.14);
+  --danger-border: rgba(244, 63, 94, 0.28);
   --success: #3fb950;
   --success-dim: #16301c;
   color-scheme: dark;
@@ -135,3 +139,41 @@ body {
     box-shadow: none !important;
   }
 }
+
+/* Reusable UI/UX Button Styles */
+.btn-subtle-danger {
+  background-color: var(--danger-subtle);
+  color: var(--danger);
+  border: 1px solid var(--danger-border);
+  transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.btn-subtle-danger:hover {
+  background-color: rgba(225, 29, 72, 0.15);
+  border-color: rgba(225, 29, 72, 0.35);
+}
+.dark .btn-subtle-danger:hover, [data-theme="dark"] .btn-subtle-danger:hover {
+  background-color: rgba(244, 63, 94, 0.22);
+  border-color: rgba(244, 63, 94, 0.45);
+}
+.btn-subtle-danger:active {
+  transform: scale(0.98);
+}
+
+.btn-solid-danger {
+  background-color: #e11d48;
+  color: #ffffff;
+  box-shadow: 0 1px 2px 0 rgba(225, 29, 72, 0.25);
+  transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.dark .btn-solid-danger, [data-theme="dark"] .btn-solid-danger {
+  background-color: #e11d48;
+}
+.btn-solid-danger:hover {
+  background-color: #be123c;
+  box-shadow: 0 4px 12px 0 rgba(225, 29, 72, 0.35);
+}
+.btn-solid-danger:active {
+  background-color: #9f1239;
+  transform: scale(0.98);
+}
+
